@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<Configuration status="WARN" monitorInterval="30">
+	
+	    <Properties>
+	        <Property name="LOG_PATTERN">%m%n%ex</Property>
+	        <Property name="LOG_PATTERN_CONSOLE">
+	            %d{yyyy-MM-dd HH:mm:ss.SSS} - %m%n%ex
+	        </Property>
+	        <Property name="LOG_PATH"> /data/logs/fpl/  </Property>
+	    </Properties>
+	
+	    <Appenders>
+	
+	        <Console name="ConsoleAppender" target="SYSTEM_OUT"
+	                 follow="true">
+	            <PatternLayout pattern="${LOG_PATTERN}"/>
+	        </Console>
+	
+	        <!-- Rolling File Appender -->
+	        <RollingFile name="FileAppender"
+	                     fileName="${LOG_PATH}/fpl.log"
+	                     filePattern="${LOG_PATH}/fpl-%d{yyyy-MM-dd}-%i.log">
+	            <PatternLayout>
+	                <Pattern>${LOG_PATTERN}</Pattern>
+	            </PatternLayout>
+	            <Policies>
+	            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+	                  <SizeBasedTriggeringPolicy size="50MB"/>
+	            </Policies>
+	        </RollingFile>
+	
+	        <RollingFile name="FileAppenderConsole"
+	                     fileName="${LOG_PATH}/fpl-console.log"
+	                     filePattern="${LOG_PATH}/fpl-console-%d{yyyy-MM-dd}-%i.log">
+	            <PatternLayout>
+	                <Pattern>${LOG_PATTERN_CONSOLE}</Pattern>
+	            </PatternLayout>
+	            <Policies>
+	            <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+	                <SizeBasedTriggeringPolicy size="50MB"/>
+	            </Policies>
+	        </RollingFile>
+	
+	    </Appenders>
+	
+	    <Loggers>
+	
+	        <Logger name="com.nac" level="debug" additivity="false">
+	            <AppenderRef ref="FileAppender"/>
+	            <!-- <AppenderRef ref="ConsoleAppender" /> -->
+	        </Logger>
+	
+	        <Root level="info">
+	            <AppenderRef ref="FileAppenderConsole"/>
+	            <AppenderRef ref="ConsoleAppender"/>
+	        </Root>
+	
+	    </Loggers>
+	
+	</Configuration>
+	
+
