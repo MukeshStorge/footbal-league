@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ps.fbl.client.FBLClient;
 import com.ps.fbl.dto.FBLDto;
-import com.ps.fbl.exception.BadRequestException;
+import com.ps.fbl.exception.FBLException;
 import com.ps.fbl.model.Country;
 import com.ps.fbl.model.Leagues;
 import com.ps.fbl.model.TeamStanding;
@@ -28,7 +28,7 @@ public class FBLService {
 	@Autowired
 	private FBLClient fBLClient;
 
-	public FBLDto getTeamStanding(TeamStandingRequest teamStandingRequest) {
+	public FBLDto getTeamStanding(TeamStandingRequest teamStandingRequest) throws FBLException {
 		// Validate the request
 		TeamStanding teamStandingDefault = getDefaultTeamStanding(teamStandingRequest);
 		List<Country> countries = getCountries();
@@ -74,9 +74,9 @@ public class FBLService {
 	}
 
 	private boolean isValidLeagueResponse(TeamStandingRequest teamStandingRequest, TeamStanding teamStandingDefault,
-			Leagues leagues) {
+			Leagues leagues) throws FBLException {
 		if (Objects.isNull(leagues)) {
-			throw new BadRequestException("leagues Not Found by name " + teamStandingRequest.getLeagueName());
+			throw new FBLException("leagues Not Found by name " + teamStandingRequest.getLeagueName());
 		}
 		FBLLogger.info("league found " + leagues.toString());
 		if (leagues.getLeagueId() == 0) {
@@ -86,9 +86,9 @@ public class FBLService {
 	}
 
 	private boolean isValidateCountryResponse(TeamStandingRequest teamStandingRequest, TeamStanding teamStandingDefault,
-			Country country) {
+			Country country) throws FBLException {
 		if (Objects.isNull(country)) {
-			throw new BadRequestException("Country Not Found by name " + teamStandingRequest.getCountryName());
+			throw new FBLException("Country Not Found by name " + teamStandingRequest.getCountryName());
 		}
 		FBLLogger.info("Country found " + country.toString());
 

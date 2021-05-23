@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ps.fbl.dto.FBLDto;
+import com.ps.fbl.exception.FBLException;
 import com.ps.fbl.model.TeamStandingRequest;
 import com.ps.fbl.service.FBLService;
 
@@ -24,7 +25,7 @@ public class FBLController {
 	}
 
 	@PostMapping
-	public ResponseEntity<FBLDto> getStandings(@RequestBody TeamStandingRequest teamStandingRequest) {
+	public ResponseEntity<FBLDto> getStandings(@RequestBody TeamStandingRequest teamStandingRequest) throws FBLException {
 		return ResponseEntity.ok(fBLService.getTeamStanding(teamStandingRequest));
 	}
 
