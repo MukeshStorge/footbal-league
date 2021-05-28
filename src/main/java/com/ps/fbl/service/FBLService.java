@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ps.fbl.client.FBLClient;
@@ -29,8 +31,8 @@ public class FBLService {
 	private FBLClient fBLClient;
 
 	public FBLDto getTeamStanding(TeamStandingRequest teamStandingRequest) throws FBLException {
-		// Validate the request
 		TeamStanding teamStandingDefault = getDefaultTeamStanding(teamStandingRequest);
+		//Get Countries 
 		List<Country> countries = getCountries();
 		Country country = getCountryByName(teamStandingRequest, countries);
 		if (!isValidateCountryResponse(teamStandingRequest, teamStandingDefault, country)) {
@@ -38,18 +40,24 @@ public class FBLService {
 		}
 		teamStandingDefault.setCountryId(country.getId());
 
+		//Get Leagues 
 		List<Leagues> leaguesList = getLeagues(country.getId());
 		Leagues leagues = getLeaguesByName(teamStandingRequest, leaguesList);
 		if (!isValidLeagueResponse(teamStandingRequest, teamStandingDefault, leagues)) {
 			return (FBLDto.from(teamStandingDefault));
 		}
 		teamStandingDefault.setLeagueId(leagues.getLeagueId());
+		
+		//Get TeamStandings 
 		List<TeamStanding> teamStandings = getTeamStanding(leagues.getLeagueId());
-		FBLLogger.info("team standing found " + teamStandings.toString());
+		FBLLogger.info("Team standing found " + teamStandings.toString());
 
 		TeamStanding teamStandingsFiltered = getFilteredTeamStanding(teamStandingRequest, teamStandings);
+		if (Objects.isNull(teamStandingsFiltered)) {
+			throw new FBLException("Team Standings Filtered Not Found by name " + teamStandingRequest.getCountryName(),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		teamStandingsFiltered.setCountryId(country.getId());
-		FBLLogger.info("team standing filtered found " + teamStandingsFiltered.toString());
+		FBLLogger.info("Team standing filtered found " + teamStandingsFiltered.toString());
 		if (teamStandingsFiltered.getTeamId() == 0) {
 			return FBLDto.from(teamStandingDefault);
 		}
@@ -76,7 +84,7 @@ public class FBLService {
 	private boolean isValidLeagueResponse(TeamStandingRequest teamStandingRequest, TeamStanding teamStandingDefault,
 			Leagues leagues) throws FBLException {
 		if (Objects.isNull(leagues)) {
-			throw new FBLException("leagues Not Found by name " + teamStandingRequest.getLeagueName());
+			throw new FBLException("Leagues Not Found by name :" + teamStandingRequest.getLeagueName(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		FBLLogger.info("league found " + leagues.toString());
 		if (leagues.getLeagueId() == 0) {
@@ -88,7 +96,7 @@ public class FBLService {
 	private boolean isValidateCountryResponse(TeamStandingRequest teamStandingRequest, TeamStanding teamStandingDefault,
 			Country country) throws FBLException {
 		if (Objects.isNull(country)) {
-			throw new FBLException("Country Not Found by name " + teamStandingRequest.getCountryName());
+			throw new FBLException("Country Not Found by name " + teamStandingRequest.getCountryName(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		FBLLogger.info("Country found " + country.toString());
 
