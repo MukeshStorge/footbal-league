@@ -27,6 +27,7 @@ to production or live environment.
 
 * Java 8
 * Spring Boot 2.3.4
+* Swagger 2
 * Log4j
 * Lombok
 * Docker
