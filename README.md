@@ -28,10 +28,13 @@ to production or live environment.
 * Java 8
 * Spring Boot 2.3.4
 * Swagger 2
+* Actuator
 * Log4j
 * Lombok
 * Docker
 * Maven
+
+![image](https://user-images.githubusercontent.com/65528044/119957475-ba49f580-bfbf-11eb-9247-2f8e7e0aae36.png)
 
 
 <!-- ROADMAP -->
