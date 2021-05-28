@@ -1,25 +1,48 @@
-# football-league-ps-microservice
-Microservices - to fetch football league team standings from football api
+# Football League
 
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#license">License</a></li>
+  </ol>
+</details>
 
-Develop, Test and Deploy a microservice to find standings of a team playing league football match using country name, league name and team name. The
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+  Develop, Test and Deploy a microservice to find standings of a team playing league football match using country name, league name and team name. The
 service should be accessible via web browser on internet and end user should be able to view results by changing previously listed parameters. Output of
 this service should be presented in web browser using any one of Javascript framework, HTML or JSON. And the service should be ready to be released
-to production or live environment. In output, display following:   
+to production or live environment.
 
-`Country ID & Name: (<ID>) - <name>  ` 
-`League ID & Name: (<ID>) - <name> ` 
-`Team ID & Name: (<ID>) - <name>  `
-`Overall League Position: <position>  `
+### Built With
 
-http url: `http://localhost:8085/api/service/v1/team/standing?teamName=Leeds&countryName=England&leagueName=Championship`
+* Java 8
+* Spring Boot 2.3.4
+* Log4j
+* Lombok
+* Docker
+* Maven
 
-output: 
-`{
-"country": "(41) - England",
-"league": "(149) - Championship",
-"team": "(2653) - Leeds",
-"overallPosition": 1
-}`
 
-Test cases yet to write
+<!-- ROADMAP -->
+## Roadmap
+
+See the [open issues](https://github.com/MukeshStorge/football-league/issues) for a list of proposed features (and known issues).
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See [LICENSE][license-url] for more information.
+
+[license-url]: https://github.com/MukeshStorge/football-league/blob/main/LICENSE
+
